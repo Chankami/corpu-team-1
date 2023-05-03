@@ -1,0 +1,129 @@
+{% extends 'app/applicant_base.html' %}
+
+
+{% block title%}
+corpuportal Signup
+{% endblock %}
+
+
+
+{% block content %}
+<main class="main">
+    <section class="section-box">
+    <div class="banner-hero hero-2">
+    <div class="banner-inner">
+      <div class="block-banner">
+        <h2 class="text-42 color-white">Registration</h2>
+        <div class="ffont-sm text-muted color-white mt-20">Please fill your details</div>
+        <section class="login-register">
+          <div class="container">
+            <div class="row login-register-cover">
+              <div style="margin-top: 5px;">
+                {% if messages %}
+                
+                    {% for message in messages %}
+                    {% if message.tags == "error" %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Error</strong> {{message}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endif %}
+        
+                    {% if message.tags == "success" %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Success</strong> {{message}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endif %}
+        
+                    {% endfor %}
+                
+                {% endif %}
+        
+            </div>
+              <form class="login-register text-start row g-3" action="{% url 'applicant_register'%}" method="POST" class="was-validated">
+                {% csrf_token %}
+                <div class="form-group col-md-6">
+                  <label class="form-label color-white color-white" for="input-1">First Name *</label>
+                  <input class="form-control" id="input-1" type="text" required="yes" name="firstname"
+                    placeholder="Steven">
+                    <div class="invalid-feedback">
+                      Please choose a username.
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label class="form-label color-white color-white" for="input-1">Last Name *</label>
+                  <input class="form-control" id="input-2" type="text" required="" name="lastname"
+                    placeholder="Job">
+                </div>
+                <div class="form-group col-md-6">
+                  <label class="form-label color-white" for="input-2">Email *</label>
+                  <input class="form-control" id="input-3" type="email" required="" name="emailaddress"
+                    placeholder="stevenjob@gmail.com">
+                </div>
+                <div class="form-group col-md-6">
+                  <label class="form-label color-white" for="input-5">Phone No*</label>
+                  <input class="form-control" id="phone-no" type="tel" required="" name="phoneno"
+                    placeholder="+614232422">
+                </div>
+                <div class="form-group col-md-6">
+                  <label class="form-label color-white" for="input-4">Password *</label>
+                  <input class="form-control" id="input-4" type="password" required="" name="password"
+                    placeholder="************">
+                </div>
+                <div class="form-group col-md-6">
+                  <label class="form-label color-white" for="input-5">Confirm Password *</label>
+                  <input class="form-control" id="input-5" type="password" required="" name="confirm-password"
+                    placeholder="************">
+                </div>
+                <div class="form-group col-md-6">
+                  <label class="form-label color-white" for="input-5">Date of Birth *</label>
+                  <input class="form-control" id="input-5" type="date" required="yes" name="dob"
+                    placeholder="mm/dd/yyy" required>
+                </div>
+                <div class="form-group col-md-6">
+                  <label class="form-label color-white" for="input-5">Gender</label>
+                  <select class="form-control  form-select form-icons" name="gender" required>
+                    <option selected disabled value="">Select</option>
+                    <option value="Female">Female</option>
+                    <option value="Male">Male</option>
+                    <option value="Other">Other</option>
+                  </select>
+                  <i class="fi-rr-marker"></i>
+                </div>
+                <div class="form-group col-md-12">
+                  <label class="form-label color-white" for="input-5">Address</label>
+                  <input class="form-control" id="input-5" type="text" required="no" name="address"
+                    placeholder="John St, Hawthorn VIC 3122">
+                </div>
+                <div class="login_footer form-group d-flex justify-content-between">
+                  <label class="cb-container">
+                  <input type="checkbox"><span class="text-small color-white">Agree our terms and
+                  policy</span><span class="checkmark"></span>
+                </div>
+                <div class="form-group">
+                  <button class="btn btn-brand-1 hover-up w-100" type="submit" name="login">Register</button>
+                </div>
+                <div class="text-muted text-center color-white">Already have an account? <a class="color-white"
+                  href="{% url 'applicant_login' %}"> Login</a></div>
+            </div>
+            </form>
+          </div>
+      </div>
+    </div>
+    </section>
+  </main>
+
+{% endblock %}
+
+
+{% block javascript%}
+<script>
+var element = document.getElementById('phone-no');
+var maskOptions = {
+  mask: '+{61} 0 0000 0000'
+};
+var mask = IMask(element, maskOptions);
+</script>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'app/applicant_base.html'  %}
+
+
+
+{% block title%}
+corpuportal Index
+{% endblock %}
+
+
+{% block content%}
+
+<main class="main">
+    <section class="section-box">
+        <div class="banner-hero hero-2">
+            <div class="banner-inner">
+                <div class="block-banner">
+                    <div class="font-lg font-regular color-white mt-20" data-wow-delay=".1s">Welcome back!</div>
+                    <h2 class="text-42 color-white">Index</h2>
+                    <!--<div class="form-find mt-40 wow animate__animated animate__fadeIn" data-wow-delay=".2s"></div>-->
+                    <div style="margin-top: 5px;">
+                        {% if messages %}
+                        
+                            {% for message in messages %}
+                            {% if message.tags == "error" %}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>Error</strong> {{message}}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            {% endif %}
+                
+                            {% if message.tags == "success" %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>Success</strong> {{message}}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            {% endif %}
+                
+                            {% endfor %}
+                        
+                        {% endif %}
+                
+                    </div>
+                    <section class="login-register">
+                        <div class="container">
+                            <div class="row login-register-cover">
+                                <div class="col-lg-8 col-md-6 col-sm-12 mx-auto">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+</main>
+
+{%endblock%}
+
+
+

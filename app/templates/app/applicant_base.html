@@ -1,0 +1,142 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="author" content="">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'app/imgs/template/favicon.svg' %}">
+    <link href="{% static 'app/css/style.css' %}" rel="stylesheet">
+    <title>{% block title%}{% endblock %}</title>
+    <script src="https://unpkg.com/imask"></script>
+</head>
+
+<body>
+    <!-- Header -->
+    <!-- <div id="preloader-active">
+        <div class="preloader d-flex align-items-center justify-content-center">
+            <div class="preloader-inner position-relative">
+                <div class="text-center"><img src="{% static 'app/imgs/template/loading.gif'%}" alt="JobBoard"></div>
+            </div>
+        </div>
+    </div> -->
+    <header class="header sticky-bar">
+        <div class="container">
+            <div class="main-header">
+                <div class="header-left">
+                    <div class="header-logo">
+                        <a class="d-flex" href="index.html"><img alt="CropU"
+                                src="{% static 'app/imgs/CorpU.svg'%}"></a>
+                    </div>
+                </div>
+                <div class="header-nav">
+                    <nav class="nav-main-menu">
+                        <ul class="main-menu">
+                        </ul>
+                    </nav>
+                    <div class="burger-icon burger-icon-white"><span class="burger-icon-top"></span><span
+                            class="burger-icon-mid"></span><span class="burger-icon-bottom"></span></div>
+                </div>
+                
+                <div class="header-right">
+                    {% if request.session %}
+                        {% if not request.session.is_verified %}
+                        <div class="block-signin"><a class="btn btn-brand-1 btn-shadow ml-40 hover-up"
+                                href="{% url 'applicant_login' %}">Sign
+                                in</a>
+                        </div>
+                        
+                        {% else %}
+                        <div class="block-signin"><a class="btn btn-brand-1 btn-shadow ml-40 hover-up"
+                            href="{% url 'logout_user' %}">Logout</a>
+                        </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+                
+            </div>
+        </div>
+    </header>
+    <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
+        <div class="mobile-header-wrapper-inner">
+            <div class="mobile-header-content-area">
+                <div class="perfect-scroll">
+                    <div class="mobile-search mobile-header-border mb-30">
+                    </div>
+                    <div class="mobile-menu-wrap mobile-header-border">
+                        <!-- mobile menu start-->
+                        <nav>
+                            <ul class="mobile-menu font-heading">
+                                <li><a href="login.html" target="_blank">Login</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="mobile-account">
+                        <ul class="mobile-menu font-heading"></ul>
+                        </ul>
+                    </div>
+                    <div class="site-copyright">Copyright 2023 &copy; CorpU</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div>
+        {% if messages %}
+        
+            {% for message in messages %}
+            {% if message.tags == "error" %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error</strong> {{message}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endif %}
+
+            {% if message.tags == "success" %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Success</strong> {{message}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endif %}
+
+            {% endfor %}
+        
+        {% endif %}
+
+    </div> -->
+        
+
+    
+
+    {% block content%}{% endblock %}
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+          <div class="footer-bottom">
+            <div class="row">
+              <div class="col-md-6"><span class="font-xs 
+                -text-paragraph text-center">Copyright &copy; 2023. CorpU all
+                right reserved</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+</body>
+<script src="{% static 'app/js/vendor/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'app/js/vendor/jquery-migrate-3.3.0.min.js'%}"></script>
+<script src="{% static 'app/js/vendor/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'app/js/plugins/wow.js' %}"></script>
+<script src="{% static 'app/js/plugins/perfect-scrollbar.min.js'%}"></script>
+<script src="{% static 'app/js/plugins/scrollup.js'%}"></script>
+<script src="{% static 'app/js/main.js'%}"></script>
+{% block javascript%}
+
+{% endblock %}
+
+</html>

@@ -1,0 +1,14 @@
+{% autoescape off %}
+Hi {{ user.first_name }}  {{ user.last_name }},
+
+Please enter the below verification code to login.
+<b>{{code}}</b>
+
+If you didn’t request this, you can ignore this email.
+
+Thanks,
+The CropU team
+{% endautoescape %}
+
+
+
