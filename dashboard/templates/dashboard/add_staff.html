@@ -1,0 +1,21 @@
+{% extends 'dashboard/base.html' %}
+
+
+{% block content%}
+
+    
+
+{%endblock%}
+
+
+{% block javascript%}
+<script src="https://unpkg.com/imask"></script>
+<script>
+var element = document.getElementById('phone-no');
+var maskOptions = {
+  mask: '+{61} 0 0000 0000'
+};
+var mask = IMask(element, maskOptions);
+</script>
+
+{% endblock %}

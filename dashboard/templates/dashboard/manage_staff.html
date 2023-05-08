@@ -1,0 +1,183 @@
+{% extends 'dashboard/base.html' %}
+
+
+{% block content%}
+
+<div class="box-content">
+    <div class="box-heading">
+        <div class="box-title">
+            <h3 class="mb-35">Manage Staff</h3>
+        </div>
+        <div class="box-breadcrumb">
+            <div class="breadcrumbs">
+                <ul>
+                    <li> <a class="icon-home" href="{% url 'index'%}">Admin</a></li>
+                    <li><span>Manage Staff</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="section-box">
+                <div class="container">
+                    <div class="panel-white mb-30">
+                        <div class="box-padding">
+                            <h6 class="color-text-paragraph-2 ">Manage staff member</h6>
+                            <div class="panel-head">
+                                {% include 'dashboard/messages.html'%}
+                            </div>
+                            <div class="row">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-md-12">
+
+                                                    <div class="table-responsive">
+                                                        <table class="table no-wrap user-table mb-0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th scope="col"
+                                                                        class="border-0 text-uppercase font-medium pl-4">
+                                                                        #</th>
+                                                                    <th scope="col"
+                                                                        class="border-0 text-uppercase font-medium">
+                                                                        First Name</th>
+                                                                    <th scope="col"
+                                                                        class="border-0 text-uppercase font-medium">Last
+                                                                        Name</th>
+                                                                    <th scope="col"
+                                                                        class="border-0 text-uppercase font-medium">
+                                                                        Email</th>
+                                                                    <th scope="col"
+                                                                        class="border-0 text-uppercase font-medium">
+                                                                        Contact No</th>
+                                                                    <th scope="col"
+                                                                        class="border-0 text-uppercase font-medium">Type
+                                                                    </th>
+                                                                    <th scope="col"
+                                                                        class="border-0 text-uppercase font-medium">
+                                                                        Status</th>
+                                                                    <th scope="col"
+                                                                        class="border-0 text-uppercase font-medium">
+                                                                        Manage</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                                {% for profile in page_obj%}
+                                                                <tr>
+                                                                    <td class="pl-4">{{forloop.counter}}</td>
+                                                                    <td>
+                                                                        <span class="text-muted">{{profile.user.first_name}}</span>
+
+
+                                                                    </td>
+                                                                    <td>
+                                                                        <span class="text-muted">{{profile.user.last_name}}</span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span
+                                                                            class="text-muted">{{profile.user.email}}</span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span class="text-muted">{{profile.user.phone_no}}</span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span class="text-muted">{{profile.faculty}}</span>
+                                                                    </td>
+                                                                    {% if profile.user.is_active %}
+                                                                    <td>
+                                                                        <span
+                                                                            class="label-status label-active">Active</span>
+                                                                    </td>
+
+                                                                    {% else%}
+                                                                    <td>
+                                                                        <span
+                                                                            class="label-status label-inactive">Inactive</span>
+                                                                    </td>
+                                                                    {% endif %}
+
+                                                                    <td>
+                                                                        <a type="button"
+                                                                            class="btn btn-default btn-edit ml-2" href="{% url 'edit_staff' staff_id=profile.id %}"></i>
+                                                                        </a>
+                                                                        <a type="button"
+                                                                            class="btn btn-default btn-remove ml-2" href="{% url 'delete_staff' staff_id=profile.id %}"></i>
+                                                                        </a>
+
+                                                                    </td>
+                                                                </tr>
+                                                                {% endfor %}
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="paginations">
+                                                    <!-- <span class="step-links">
+                                                        {% if page_obj.has_previous %}
+                                                            <a href="?page=1">&laquo; first</a>
+                                                            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                                                        {% endif %}
+                                                
+                                                        <span class="current">
+                                                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                                        </span>
+                                                
+                                                        {% if page_obj.has_next %}
+                                                            <a href="?page={{ page_obj.next_page_number }}">next</a>
+                                                            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                                                        {% endif %}
+                                                    </span> -->
+                                                    <ul class="pager">
+                                                        {% if page_obj.has_previous %}
+                                                        <li><a class="pager-prev" href="?page={{ page_obj.previous_page_number }}"></a></li>
+                                                        {% endif %}
+                                                        <!-- <li><a class="pager-number" href="#">1</a></li>
+                                                        <li><a class="pager-number" href="#">2</a></li>
+                                                        <li><a class="pager-number" href="#">3</a></li>
+                                                        <li><a class="pager-number" href="#">4</a></li>
+                                                        <li><a class="pager-number" href="#">5</a></li>
+                                                        <li><a class="pager-number active" href="#">6</a></li>
+                                                        <li><a class="pager-number" href="#">7</a></li> -->
+                                                        <li class="current pager-number">
+                                                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                                        </li>
+                                                        {% if page_obj.has_next %}
+                                                        <li><a class="pager-next" href="?page={{ page_obj.next_page_number }}"></a></li>
+                                                        {% endif %}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <footer class="footer mt-20">
+            <div class="container">
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 mb-25 text-center text-md-start">
+                            <p class="font-sm color-text-paragraph-2">Copyright © 2023. CorpU all right reserved</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+</div>
+
+{% endblock %}

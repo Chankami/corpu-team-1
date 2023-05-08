@@ -1,0 +1,172 @@
+<!--Staff/Admin dashboard Base Page-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="msapplication-TileColor" content="#0E0E0E">
+  <meta name="template-color" content="#0E0E0E">
+
+  <meta name="msapplication-config" content="browserconfig.xml">
+  <meta name="description" content="Index page">
+  <meta name="keywords" content="index, page">
+  <meta name="author" content="">
+  <link rel="shortcut icon" type="image/x-icon" href="{% static 'dashboard/assets/imgs/corpU.ico'%}">
+  <link href="{% static 'dashboard/assets/css/style-dashboard.css' %}" rel="stylesheet">
+  <title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+  <div id="preloader-active">
+    <div class="preloader d-flex align-items-center justify-content-center">
+      <div class="preloader-inner position-relative">
+        <div class="text-center"><img src="{% static 'dashboard/assets/imgs/icons/loading.gif'%}" alt="CorpU"></div>
+      </div>
+    </div>
+  </div>
+  <header class="header sticky-bar">
+    <div class="container">
+      <div class="main-header">
+        <div class="header-left">
+          <div class="header-logo"><a class="d-flex" href="{% url 'index'%}"><img alt="CorpU"
+                src="{% static 'dashboard/assets/imgs/CorpU.svg'%}"></a>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="member-login"><img alt="" src="{% static 'dashboard/assets/imgs/icons/profile-pic.png'%}">
+            <div class="info-member"> <strong class="color-brand-1">{{request.user.email}}</strong>
+              <div class="dropdown"><a class="font-xs color-text-paragraph-2 icon-down" id="dropdownProfile"
+                  type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-display="static">Staff</a>
+                <ul class="dropdown-menu dropdown-menu-light dropdown-menu-end" aria-labelledby="dropdownProfile">
+                  <li><a class="dropdown-item" href="profile.html">Profiles</a></li>
+                  <li><a class="dropdown-item" href="{% url 'logout_dashboard'%}">Log Out</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </header>
+  <div class="burger-icon burger-icon-white"><span class="burger-icon-top"></span><span
+      class="burger-icon-mid"></span><span class="burger-icon-bottom"></span></div>
+  <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
+    <div class="mobile-header-wrapper-inner">
+      <div class="mobile-header-content-area">
+        <div class="perfect-scroll">
+          <div class="mobile-menu-wrap mobile-header-border">
+            <!-- mobile menu start-->
+            <nav>
+              <ul class="main-menu">
+                <li> <a class="dashboard2 {% if request.resolver_match.view_name == 'index' %}active{%endif%}"
+                    href="{% url 'index'%}">
+                    <img src="{% static 'dashboard/assets/imgs/icons/dashboard.svg'%}" alt="CorpU"><span
+                      class="name">Dashboard</span></a>
+                </li>
+                <li> <a class="dashboard2 {% if request.resolver_match.view_name == 'add_staff' %}active {%endif%}"
+                    href="{% url 'add_staff'%}">
+                    <img src="{% static 'dashboard/assets/imgs/icons/profiles.svg'%}" alt="CorpU"><span class="name">Add
+                      Staff</span></a>
+                </li>
+                <li> <a
+                    class="dashboard2 {% if request.resolver_match.view_name == 'manage_staff' %} active {% endif %}"
+                    href="{% url 'manage_staff'%}">
+                    <img src="{% static 'dashboard/assets/imgs/icons/btn-edit.svg'%}" alt="CorpU"><span
+                      class="name">Manage Staff</span></a>
+                </li>
+                <li> <a class="dashboard2 {% if request.resolver_match.view_name == 'review_units' %} active {%endif%}"
+                    href="{% url 'review_units'%}">
+                    <img src="{% static 'dashboard/assets/imgs/icons/tasks.svg'%}" alt="CorpU"><span class="name">Review
+                      Units</span></a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <div class="mobile-account">
+            <h6 class="mb-10">Your Account</h6>
+            <ul class="mobile-menu font-heading">
+              <li><a href="#">Profile</a></li>
+              <li><a href="{% url 'logout_dashboard'%}">Log Out</a></li>
+            </ul>
+          </div>
+          <div class="site-copyright">Copyright © 2023. CorpU all right reserved</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <main class="main">
+    <div class="nav"><a class="btn btn-expanded"></a>
+      <nav class="nav-main-menu">
+        <ul class="main-menu">
+          <li> <a class="dashboard2 {% if request.resolver_match.view_name == 'index' %}active{%endif%}"
+              href="{% url 'index'%}"><img src="{% static 'dashboard/assets/imgs/icons/dashboard.svg'%}"
+                alt="CorpU"><span class="name">Dashboard</span></a>
+          </li>
+          {% if request.user.is_superuser %}
+          <li> <a class="dashboard2 {% if request.resolver_match.view_name == 'add_staff' %} active {% endif %}"
+              href="{% url 'add_staff'%}">
+              <img src="{% static 'dashboard/assets/imgs/icons/profiles.svg'%}" alt="CorpU"><span class="name">Add
+                Staff</span></a>
+          </li>
+          <li> <a class="dashboard2 {% if request.resolver_match.view_name == 'manage_staff' %} active {%endif%}"
+              href="{% url 'manage_staff'%}">
+              <img src="{% static 'dashboard/assets/imgs/icons/btn-edit.svg'%}" alt="CorpU"><span class="name">Manage
+                Staff</span></a>
+          </li>
+          <li> <a class="dashboard2 {% if request.resolver_match.view_name == 'review_units' %} active {%endif%}"
+              href="{% url 'review_units'%}">
+              <img src="{% static 'dashboard/assets/imgs/icons/tasks.svg'%}" alt="CorpU"><span class="name">Review
+                Units</span></a>
+          </li>
+          {% endif %}
+          {% if request.user.user_type == '2' %}
+          <li> <a class="dashboard2 {% if request.resolver_match.view_name == 'add_job' %}active{%endif%}"
+              href="{% url 'add_job' %}">
+              <img src="{% static 'dashboard/assets/imgs/icons/jobs.svg'%}" alt="CorpU"><span class="name">Add
+                Unit</span></a>
+          </li>
+          <li> <a class="dashboard2 {% if request.resolver_match.view_name == 'unit_list' %}active {%endif%}"
+              href="{% url 'unit_list'%}">
+              <img src="{% static 'dashboard/assets/imgs/icons/tasks.svg'%}" alt="CorpU"><span class="name">View
+                Units</span></a>
+          </li>
+          <li> <a class="dashboard2" href="{% url 'manage_candidates'%}">
+              <img src="{% static 'dashboard/assets/imgs/icons/candidates.svg'%}" alt="CorpU"><span class="name">Manage
+                Candidates</span></a>
+          </li>
+          <li> <a class="dashboard2" href="{% url 'schedule'%}">
+              <img src="{% static 'dashboard/assets/imgs/icons/recruiters.svg'%}" alt="CorpU"><span
+                class="name">Schedule Applicants</span></a>
+          </li>
+          <li> <a class="dashboard2" href="{% url 'detail_schedule'%}">
+              <img src="{% static 'dashboard/assets/imgs/icons/profiles.svg'%}" alt="CorpU"><span class="name">Detail
+                Schedule</span></a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+    {% block content%}
+    {%endblock%}
+  </main>
+</body>
+
+<script src="{% static 'dashboard/assets/js/vendor/modernizr-3.6.0.min.js'%}"></script>
+<script src="{% static 'dashboard/assets/js/vendor/jquery-3.6.0.min.js'%}"></script>
+<script src="{% static 'dashboard/assets/js/vendor/jquery-migrate-3.3.0.min.js'%}"></script>
+<script src="{% static 'dashboard/assets/js/vendor/bootstrap.bundle.min.js'%}"></script>
+<script src="{% static 'dashboard/assets/js/plugins/waypoints.js'%}"></script>
+<script src="{% static 'dashboard/assets/js/plugins/magnific-popup.js'%}"></script>
+<script src="{% static 'dashboard/assets/js/plugins/perfect-scrollbar.min.js'%}"></script>
+<script src="{% static 'dashboard/assets/js/plugins/select2.min.js'%}"></script>
+<script src="{% static 'dashboard/assets/js/plugins/jquery.circliful.js'%}"></script>
+<script src="{% static 'dashboard/assets/js/main.js'%}"></script>
+
+{% block javascript%}
+{% endblock %}
+</html>

@@ -1,0 +1,101 @@
+<!--Staff/Admin dashboard Base  for Login Page-->
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="author" content="">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'app/imgs/CorpU.ico' %}">
+    <link href="{% static 'app/css/style-applicant.css' %}" rel="stylesheet">
+    <link href="{% static 'app/css/plugins/select2.min.css'%}" rel="stylesheet">
+    <title>{% block title%}{% endblock %}</title>
+    <script src="https://unpkg.com/imask"></script>
+</head>
+<body>
+    <header class="header sticky-bar">
+        <div class="container">
+            <div class="main-header">
+                <div class="header-left">
+                    <div class="header-logo">
+                        <a class="d-flex" href="{% url 'login_dashboard'%}"><img alt="CropU"
+                                src="{% static 'app/imgs/CorpU.svg'%}"></a>
+                    </div>
+                </div>
+                <div class="header-nav">
+                    <nav class="nav-main-menu">
+                        <ul class="main-menu">
+                        </ul>
+                    </nav>
+                    <div class="burger-icon burger-icon-white"><span class="burger-icon-top"></span><span
+                            class="burger-icon-mid"></span><span class="burger-icon-bottom"></span></div>
+                </div>
+
+                <div class="header-right">
+                    {% if request.session %}
+                    {% if not request.session.is_verified %}
+
+                    {% else %}
+                    <div class="block-signin"><a class="btn btn-default btn-shadow ml-40 hover-up"
+                            href="{% url 'logout_user' %}">Log Out</a>
+                    </div>
+                    {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
+        <div class="mobile-header-wrapper-inner">
+            <div class="mobile-header-content-area">
+                <div class="perfect-scroll">
+                    <div class="mobile-search mobile-header-border mb-30">
+                    </div>
+                    <div class="mobile-menu-wrap mobile-header-border">
+                        <!-- mobile menu start-->
+                        <nav>
+                            <ul class="mobile-menu font-heading">
+                                <li><a href="login.html" target="_blank">Login</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="mobile-account">
+                        <ul class="mobile-menu font-heading"></ul>
+                        </ul>
+                    </div>
+                    <div class="site-copyright">Copyright &copy; 2023. CropU all right reserved</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% block content%}{% endblock %}
+    <!-- Footer -->
+    <footer class="footer mt-50">
+        <div class="container">
+            <div class="footer-bottom mt-50">
+                <div class="row">
+                    <div class="col-md-6"><span class="font-xs 
+                -text-paragraph text-center">Copyright &copy; 2023. CropU all right reserved</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+<script src="{% static 'app/js/vendor/jquery-3.6.0.min.js'%}"></script>
+<script src="{% static 'app/js/vendor/jquery-migrate-3.3.0.min.js'%}"></script>
+<script src="{% static 'app/js/vendor/bootstrap.bundle.min.js'%}"></script>
+<script src="{% static 'app/js/plugins/wow.js'%}"></script>
+<script src="{% static 'app/js/plugins/perfect-scrollbar.min.js'%}"></script>
+<script src="{% static 'app/js/plugins/scrollup.js'%}"></script>
+<script src="{% static 'app/js/main.js'%}"></script>
+<script src="{% static 'app/js/plugins/select2.min.js'%}"></script>
+{% block javascript%}
+
+{% endblock %}
+
+</html>
