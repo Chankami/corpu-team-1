@@ -84,6 +84,89 @@ def logout_dashboard(request):
         
     return HttpResponseRedirect(reverse('login_dashboard'))
 
+#Send reset email for staff
+def send_reset_link(request,email):
+    from django.http import HttpRequest
+    from django.contrib.auth.forms import PasswordResetForm
+    try:  
+        form = PasswordResetForm({'email': email})
+        if form.is_valid():
+            print("Sending email for to this email:", email)
+            form.save(request=request, from_email=settings.EMAIL_HOST_USER, 
+                email_template_name='dashboard/password_reset/password_reset_email.html')
+
+    except Exception as e:
+        print(str(e))
+    return 'success'
+
+#Send OTP for staff
+def send_verification_otp(request, otp_code, user):
+    
+    subject = 'One time Password - CorpU'
+    message = render_to_string('app/emails/otp_verification_email.html', {
+        'user': user,
+        'code': otp_code
+
+    })
+    send_mail(subject, message, settings.EMAIL_HOST_USER, [user.email], fail_silently=False)
+    messages.success(request, f"Please check your email for OTP code")
+
+#Send account confirmation for staff
+def send_confirmation_email(request, user, email):
+    current_site = get_current_site(request)
+    print("current site", current_site)
+    subject = 'Confirm your CorpU account'
+    message = render_to_string('dashboard/emails/confirmation_email.html', {
+        'user': user,
+        'domain': current_site.domain,
+        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+        'token': account_activation_token.make_token(user),
+        'protocol': 'https' if request.is_secure() else 'http'
+
+    })
+    send_mail(subject, message, settings.EMAIL_HOST_USER, [user.email], fail_silently=False)
+    messages.success(request, f"Please check your email to confirm your registration")
+
+#OTP implementation
+def otp_view(request):
+    if not request.user.is_authenticated:
+        return redirect('login_dashboard')
+    if request.method == 'POST':
+        code = request.POST['otp']
+        print(code)
+        otp_codes = OTPCode.objects.filter(user=request.user)
+        print(otp_codes)
+        if otp_codes:
+            if otp_codes[0].code == code:
+                
+                request.session['is_verified'] = True
+                messages.success(request,  'Logged in!')
+                return HttpResponseRedirect(reverse('index'))    
+        logout_dashboard(request)
+        messages.error(request,  'OTP verification failed!')
+        return HttpResponseRedirect(reverse('login_dashboard'))
+    return render(request, 'dashboard/staff_otp.html')
+
+#Account activaion
+def activate_account(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        
+        user.save()
+        # login(request, user)
+        messages.success(request, ('Your account have been verified. You can login now'))
+        return redirect('login_dashboard')
+    else:
+        messages.warning(request, ('The confirmation link was invalid, possibly because it has already been used.'))
+        return redirect('index')
+
+
  #Add Staff by Admin
 def add_staff(request):
     if not request.user.is_authenticated or not request.user.is_superuser:
@@ -142,6 +225,18 @@ def manage_staff(request):
 
      print(page_obj)
      return render(request, 'dashboard/manage_staff.html', {"page_obj": page_obj})
+
+#Manage Staff details
+def delete_staff(request, staff_id):
+    staff_profile = StaffProfile.objects.filter(id=staff_id).first()
+    if staff_profile:
+        user = User.objects.filter(id=staff_profile.user.id).first()
+        user.delete()
+        staff_profile.delete()
+        messages.success(request, 'Staff deleted')
+        return HttpResponseRedirect(reverse('manage_staff'))
+    messages.error(request, 'Staff profile not found')
+    return HttpResponseRedirect(reverse('manage_staff'))
 
 #Add Jobs by Staff     
 def add_job(request):
@@ -229,7 +324,7 @@ def delete_unit(request, job_id):
     else:
         return HttpResponseRedirect(reverse('unit_list'))  
 
- #review units  
+ #Review units  
 def review_units(request):
     if not request.user.is_authenticated or not request.user.is_superuser:
         messages.error(request, 'Only admins are allowed here')
@@ -243,6 +338,20 @@ def review_units(request):
     print(page_obj)
     return render(request, 'dashboard/review_units.html', {"page_obj": page_obj, "current_date": datetime.date.today()})
     
+ #Approve Units  
+def approve_unit(request, job_id):
+    if not request.user.is_authenticated or not request.user.is_superuser:
+        messages.error(request, 'Invalid Operation')
+        return HttpResponseRedirect(reverse('index'))
+    
+    job = Job.objects.filter(id=job_id).first()
+    if job.status == '1':
+        messages.success(request, "Unit is already active!")
+        return HttpResponseRedirect(reverse('review_units'))
+    job.status = '1'
+    job.save()
+    messages.success(request, "Unit approved!")
+    return HttpResponseRedirect(reverse('review_units'))
 
     
 
