@@ -15,31 +15,33 @@ from .tokens import account_activation_token
 
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
-
+from django.contrib.auth import update_session_auth_hash
 from django.core.mail import send_mail
 from django.conf import settings
 import random
 
 # Create your views here.
 
-
-def index(request):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('applicant_login'))
-
-    return render(request, 'app/main.html')
-
-#Logic for Staff/admin Login
+#Applicant Login
 def applicant_login(request):
+
+    if request.user.is_authenticated and request.user.user_type == '3':
+        return HttpResponseRedirect(reverse('app_index'))
+
     if request.method == 'POST':
         try:
 
             email = request.POST.get("username")
             password = request.POST.get("password")
+
             print(request.POST)
+            
             user = authenticate(username=email, password=password)
             print(user)
             if user is not None:
+                if user.user_type != '3':
+                    messages.error(request, 'Only Applicants can login here!')
+                    return HttpResponseRedirect(reverse('applicant_login'))
                 login(request, user)
 
                 request.session['is_verified'] = False
@@ -50,8 +52,9 @@ def applicant_login(request):
                 for i in range(5):
                     digit = random.choice(number_list)
                     codes.append(digit)
-
+                
                 code = "".join(str(item) for item in codes)
+                
 
                 otp_code, created = OTPCode.objects.update_or_create(
                     user=user,
@@ -62,18 +65,18 @@ def applicant_login(request):
 
                 send_verification_otp(request, otp_code.code, user)
                 return HttpResponseRedirect(reverse('applicant_otp'))
-
+                
             else:
-                messages.add_message(
-                    request, messages.ERROR, 'Email or password incorrect')
+                messages.add_message(request, messages.ERROR, 'Email or password incorrect')
                 return HttpResponseRedirect(reverse('applicant_login'))
         except Exception as e:
             print(str(e))
-            return HttpResponseRedirect(reverse('index'))
+            return HttpResponseRedirect(reverse('app_index'))
 
     return render(request, 'app/applicant_login.html')
 
 
+# Applicant Registration
 def applicant_register(request):
     if request.method == 'POST':
         fname = request.POST['firstname']
@@ -98,12 +101,11 @@ def applicant_register(request):
         print(number.as_e164)
 
         try:
-            new_user = User.objects.create_user(first_name=fname, last_name=lname, username=email, email=email,
-                                                phone_no=number.as_e164, password=password, date_of_birth=dob, gender=gender, address=address, user_type="3")
-            new_user.is_active = False
-            new_user.save()
-            send_confirmation_email(request, new_user, email)
-            return HttpResponseRedirect(reverse('applicant_register'))
+             new_user = User.objects.create_user(first_name = fname, last_name=lname, username=email, email = email, phone_no = number.as_e164, password=password, date_of_birth = dob, gender=gender, address=address, user_type="3")   
+             new_user.is_active = False
+             new_user.save()
+             send_confirmation_email(request, new_user, email)
+             return HttpResponseRedirect(reverse('applicant_register'))
         except ValidationError as e:
             print(str(e))
             pass
@@ -116,19 +118,19 @@ def applicant_register(request):
 
     return render(request, 'app/applicant_register.html')
 
-
+#Logout Applicant
 def logout_user(request):
     if request.user.is_authenticated:
         logout(request)
         request.session['is_verified'] = False
     return HttpResponseRedirect(reverse('applicant_login'))
 
-
+#OTP for Applicant
 def otp_view(request):
 
     if not request.user.is_authenticated:
         return redirect('applicant_login')
-
+    
     if request.method == 'POST':
         code = request.POST['otp']
         print(code)
@@ -140,18 +142,18 @@ def otp_view(request):
                 new_login.save()
                 request.session['is_verified'] = True
                 messages.success(request,  'Logged in!')
-                return HttpResponseRedirect(reverse('index'))
-
+                return HttpResponseRedirect(reverse('app_index'))
+            
         logout_user(request)
         messages.error(request,  'OTP verification failed!')
         return HttpResponseRedirect(reverse('applicant_login'))
     return render(request, 'app/applicant_otp.html')
 
-
+#Applicant confirmation_email 
 def send_confirmation_email(request, user, email):
     current_site = get_current_site(request)
     print("current site", current_site)
-    subject = 'Activate your CorpU account'
+    subject = 'Confirm your account'
     message = render_to_string('app/emails/confirmation_email.html', {
         'user': user,
         'domain': current_site.domain,
@@ -160,27 +162,22 @@ def send_confirmation_email(request, user, email):
         'protocol': 'https' if request.is_secure() else 'http'
 
     })
-    # user.email_user(subject, message)
-    send_mail(subject, message, settings.EMAIL_HOST_USER,
-              [user.email], fail_silently=False)
-    messages.success(
-        request, f"Please check your email to confirm your registration")
+    send_mail(subject, message, settings.EMAIL_HOST_USER, [user.email], fail_silently=False)
+    messages.success(request, f"Please check your email to confirm your registration")
 
-
+#Send otp email
 def send_verification_otp(request, otp_code, user):
 
     subject = 'One Time Password for CorpU'
     message = render_to_string('app/emails/otp_verification_email.html', {
         'user': user,
         'code': otp_code
-
     })
-    # user.email_user(subject, message)
     send_mail(subject, message, settings.EMAIL_HOST_USER,
               [user.email], fail_silently=False)
     messages.success(request, f"Please check your email for OTP code")
 
-
+#Applicant account activation
 def activate_account(request, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
@@ -190,13 +187,11 @@ def activate_account(request, uidb64, token):
 
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
-
+        
         user.save()
-        # login(request, user)
-        messages.success(
-            request, ('Your account have been verified. You can login now'))
+        messages.success(request, ('Your account have been verified. You can login now'))
         return redirect('applicant_login')
     else:
-        messages.warning(
-            request, ('The confirmation link was invalid, possibly because it has already been used.'))
-        return redirect('index')
+        messages.warning(request, ('The confirmation link was invalid, possibly because it has already been used.'))
+        return redirect('app_index')
+    

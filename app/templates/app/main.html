@@ -1,56 +1,62 @@
-{% extends 'app/applicant_base.html'  %}
+<!--Applicant Home page base-->
 
-
+{% extends 'app/applicant_dashboard_base.html'  %}
 
 {% block title%}
-corpuportal Index
+JobPortal Index
 {% endblock %}
-
 
 {% block content%}
 
-<main class="main">
-    <section class="section-box">
-        <div class="banner-hero hero-2">
-            <div class="banner-inner">
-                <div class="block-banner">
-                    <div class="font-lg font-regular color-white mt-20" data-wow-delay=".1s">Welcome back!</div>
-                    <h2 class="text-42 color-white">Index</h2>
-                    <!--<div class="form-find mt-40 wow animate__animated animate__fadeIn" data-wow-delay=".2s"></div>-->
-                    <div style="margin-top: 5px;">
-                        {% if messages %}
-                        
-                            {% for message in messages %}
-                            {% if message.tags == "error" %}
-                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                <strong>Error</strong> {{message}}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                            {% endif %}
-                
-                            {% if message.tags == "success" %}
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                <strong>Success</strong> {{message}}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                            {% endif %}
-                
-                            {% endfor %}
-                        
-                        {% endif %}
-                
-                    </div>
-                    <section class="login-register">
-                        <div class="container">
-                            <div class="row login-register-cover">
-                                <div class="col-lg-8 col-md-6 col-sm-12 mx-auto">
-                                    
+<div class="box-content">
+    <div class="box-heading">
+        <div class="box-title">
+            <h3 class="mb-35">Dashboard</h3>
+        </div>
+        <div class="box-breadcrumb">
+            <div class="breadcrumbs">
+                <ul>
+                    <li> <a class="icon-home" href="{% url 'app_index' %}">Applicant</a></li>
+                    <li><span>Dashboard</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="section-box">
+                <div class="container">
+                    <div class="panel-white mb-30">
+                        <div class="box-padding">
+                            <div class="login-register">
+                                <div class="row login-register-cover pb-250">
+                                    <div class="row">
+                                        
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
-                    </section>
-</main>
-
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer mt-20">
+        <div class="container">
+            <div class="box-footer">
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 mb-25 text-center text-md-start">
+                        <p class="font-sm color-text-paragraph-2">Copyright © 2023 <a class="color-brand-2"
+                                href="#"
+                                target="_blank">CropU </a>all right reserved<a class="color-brand-2"
+                                href="" target="_blank"> </a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
 {%endblock%}
 
 

@@ -1,12 +1,10 @@
 {% autoescape off %}
-Hi {{ user.first_name }}  {{ user.last_name }},
+Hi {{ user.first_name }} {{ user.last_name }},
 
 Please click on the link below to confirm your registration:
 
-<b>{{protocol}}://{{ domain }}{% url 'activate' uidb64=uid token=token %}</b>
+{{protocol}}://{{ domain }}{% url 'activate_applicant' uidb64=uid token=token %}
 
-If you didn’t request this, you can ignore this email.
-
-Thanks,
-The CropU team
+Thanks
+CorpU Team
 {% endautoescape %}

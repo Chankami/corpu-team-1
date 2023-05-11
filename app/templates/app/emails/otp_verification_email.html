@@ -1,14 +1,9 @@
 {% autoescape off %}
-Hi {{ user.first_name }}  {{ user.last_name }},
+Hi {{ user.first_name }} {{ user.last_name }},
 
-Please enter the below verification code to login.
-<b>{{code}}</b>
+Please use {{code}} as the CorpU OTP to complete your online request.
 
-If you didn’t request this, you can ignore this email.
+Thanks
+CorpU Team
 
-Thanks,
-The CropU team
 {% endautoescape %}
-
-
-

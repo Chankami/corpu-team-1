@@ -1,11 +1,9 @@
+<!--Applicant Registration-->
+
 {% extends 'app/applicant_base.html' %}
-
-
 {% block title%}
-Signup
+JobPortal Signup
 {% endblock %}
-
-
 
 {% block content %}
 <main class="main">
@@ -24,14 +22,14 @@ Signup
                     {% for message in messages %}
                     {% if message.tags == "error" %}
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Error</strong> {{message}}
+                        {{message}}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     {% endif %}
         
                     {% if message.tags == "success" %}
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Success</strong> {{message}}
+                        {{message}}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     {% endif %}
@@ -45,7 +43,7 @@ Signup
                 {% csrf_token %}
                 <div class="form-group col-md-6">
                   <label class="form-label color-white color-white" for="input-1">First Name *</label>
-                  <input class="form-control" id="input-1" type="text" required="yes" name="firstname"
+                  <input class="form-control" id="input-1" type="text" required="" name="firstname"
                     placeholder="Steven">
                     <div class="invalid-feedback">
                       Please choose a username.
