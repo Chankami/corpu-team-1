@@ -101,33 +101,52 @@ def add_staff(request):
         print(number.as_national)
         print(number.as_e164)
 
+ #Edit Staff details
+def edit_staff(request, staff_id):
+    staff_profile = StaffProfile.objects.filter(id=staff_id).first()
+    if request.method == 'POST':
+        first_name = request.POST['firstname']
+        last_name = request.POST['lastname']
+        email = request.POST['email']
+        phone_no = request.POST['phone_no']
+        faculty = request.POST['faculty']
         try:
-            new_user = User.objects.create_user(first_name = first_name, last_name=last_name, username=email, email = email, phone_no = number.as_e164, password=password, user_type='2')   
-            
-            new_user.save()
-            staff_profile = StaffProfile(faculty = faculty, user=new_user)
+        
+            user = User.objects.filter(id=staff_profile.user.id).first()
+            user.first_name = first_name
+            user.last_name = last_name
+            user.email = email
+            user.phone_no = phone_no
+            user.save()
+            staff_profile.faculty = faculty
             staff_profile.save()
-
-            send_reset_link(request, email)
-
-            messages.success(request, 'Staff added! A reset link has been sent to them')
-            return HttpResponseRedirect(reverse('add_staff'))
-        except IntegrityError as e:
-            messages.error(request,  "User with this email already exists!")
+            messages.success(request, 'Staff updated')
+            return HttpResponseRedirect(reverse('manage_staff'))
+        except Exception as e:
             print(str(e))
-            return HttpResponseRedirect(reverse('add_staff'))
-    return render(request, 'dashboard/add_staff.html')
+            messages.error(request, 'Staff could be updated')
+            return HttpResponseRedirect(reverse('manage_staff')) 
+    return render(request, 'dashboard/edit_staff.html', {"profile": staff_profile})
+ 
 
-def send_reset_link(request,email):
-    from django.http import HttpRequest
-    from django.contrib.auth.forms import PasswordResetForm
-    try:
-        form = PasswordResetForm({'email': email})
-        if form.is_valid():
-            print("Sending email for to this email:", email)
-            form.save(request=request, from_email=settings.EMAIL_HOST_USER, 
-                email_template_name='dashboard/password_reset/password_reset_email.html')
-    except Exception as e:
-        print(str(e))
-    return 'success'
+#Add Jobs by Staff     
+def add_job(request):
+    if not request.user.is_authenticated:
+        messages.error(request, 'Log in first')
+        return HttpResponseRedirect(reverse('login_dashboard'))
+    if request.method == 'POST':
+        code = request.POST['code']
+        name = request.POST['name']
+        description = request.POST['description']
+        start_date = request.POST['start_date']
+        end_date = request.POST['end_date']
+        comments =request.POST['comments']
+        faculty = request.POST['faculty']
+   
+        job = Job(code=code, name=name, description=description, start_date=start_date, end_date=end_date, comments=comments, user=request.user, status="0", faculty=faculty)
+        job.save()
 
+        messages.success(request, 'Job added!')
+        return HttpResponseRedirect(reverse('add_job'))
+
+    return render(request, 'dashboard/add_job.html', {"current_date": datetime.datetime.today})

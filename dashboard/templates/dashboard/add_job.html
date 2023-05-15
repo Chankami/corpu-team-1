@@ -1,8 +1,137 @@
+<!--Add Units by Staff Page-->
 {% extends 'dashboard/base.html' %}
 
 
 {% block content%}
 
+<div class="box-content">
+    <div class="box-heading">
+        <div class="box-title">
+            <h3 class="mb-35">Add Unit</h3>
+        </div>
+        <div class="box-breadcrumb">
+            <div class="breadcrumbs">
+                <ul>
+                    <li> <a class="icon-home" href="{% url 'index'%}"> Admin</a></li>
+                    <li><span>Add Unit</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            {% include 'dashboard/messages.html'%}
+            <div class="section-box">
+                <div class="container">
+                    <div class="panel-white mb-30">
+                        <div class="box-padding">
+                            <div class="login-register">
+                                <div class="row login-register-cover pb-250">
+                                    <div class="row">
+                                        <form action="{% url 'add_job' %}" method="post">
+                                            {% csrf_token %}
+                                            <div class="col-lg-6 col-md-6">
+                                                <div class="form-group mb-30">
+                                                    <label class="font-sm color-text-mutted mb-10">Unit Code*</label>
+                                                    <input class="form-control" type="text" placeholder="WillowTree"
+                                                        name="code" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6">
+                                                <div class="form-group mb-30">
+                                                    <label class="font-sm color-text-mutted mb-10">Unit Name*</label>
+                                                    <input class="form-control" type="text" placeholder="WillowTree"
+                                                        name="name" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6">
+                                                <div class="form-group mb-30">
+                                                    <label class="font-sm color-text-mutted mb-10">Unit Description*</label>
+                                                    <textarea class="form-control"
+                                                         name="description" required></textarea>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-lg-6 col-md-6">
+                                                <div class="form-group mb-30">
+                                                    <label class="font-sm color-text-mutted mb-10">Start Date*</label>
+                                                    <input type="date" class="form-control"  name="start_date" id="start_date" min="{{current_date|date:'Y-m-d'}}"/>
+
+
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6">
+                                                <div class="form-group mb-30">
+                                                    <label class="font-sm color-text-mutted mb-10">End Date*</label>
+                                                    <input type="date" class="form-control" name="end_date" min="{{current_date|date:'Y-m-d'}}"/>
+
+
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6">
+                                                <div class="form-group mb-30">
+                                                    <label class="font-sm color-text-mutted mb-10">Comments</label>
+                                                    <textarea class="form-control"
+                                                         name="comments"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6">
+                                                <div class="form-group mb-30">
+                                                    <label class="font-sm color-text-mutted mb-10">Faculty</label>
+                                                    <select class="form-control" name="faculty" required>
+                                                        <option value="" selected disabled></option>
+                                                        <option value="Arts">Faculty of Arts</option>
+                                                        <option value="Business and Economics">Faculty of Business and
+                                                            Economics</option>
+                                                        <option value="Engineering and Information Technology">Faculty
+                                                            of
+                                                            Engineering and Information Technology</option>
+                                                        <option value="Fine Arts and Music, Faculty of Medicine">Faculty
+                                                            of
+                                                            Fine Arts and Music, Faculty of Medicine</option>
+                                                        <option value="Dentistry and Health Sciences">Faculty of
+                                                            Dentistry
+                                                            and Health Sciences</option>
+                                                        <option value="Science">Faculty of Science</option>
+                                                        <option value="Law School">Faculty of Law School</option>
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            
+
+                                            <div class="col-lg-12">
+                                                <div class="form-group mt-10">
+                                                    <button class="btn btn-default btn-brand icon-tick">Add Job</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer mt-20">
+        <div class="container">
+            <div class="box-footer">
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 mb-25 text-center text-md-start">
+                        <p class="font-sm color-text-paragraph-2">Copyright © 2023 <a class="color-brand-2"
+                                href="#"
+                                target="_blank">CropU </a>all right reserved<a class="color-brand-2"
+                                href="" target="_blank"> </a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
 
 
 
