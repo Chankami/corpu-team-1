@@ -1,0 +1,67 @@
+<!--Applied Job view Page-->
+{% extends 'app/applicant_dashboard_base.html' %}
+{% block title%}
+Applied Units
+{% endblock %}
+
+{% block content%}
+<main class="main">
+  <div class="container">
+    <div class="banner-hero banner-single banner-single-bg">
+      <div class="block-banner text-center">
+        <h3 class=""><span class=""> Applied Units</h3>
+        <div class="font-sm color-text-paragraph-2 mt-10 ">Track Your Application</div>
+      </div>
+    </div>
+  </div>
+  <section class="section-box mt-70">
+    <div class="container">
+      <div class="mt-50 card-bg-white">
+        <div class="row">
+          {% for job in jobs %}
+          <div class="col-xl-3 col-lg-4 col-md-6">
+            <div class="card-grid-2 hover-up">
+              <div class="card-grid-2-image-left">
+                <div class="applied-jobs pt-10">
+                  <h5>{{job.job.name}}</h5>
+                  <span class="font-xs color-text-mutted">{{job.job.code}}</span>
+                  <div><span class="font-xs color-text-mutted">Start Date :
+                      <strong>{{job.job.start_date}}</strong></span><span> &nbsp &nbsp</span>
+                    <span class="font-xs color-text-mutted">End Date : <strong>{{job.job.end_date}}</strong></span>
+                  </div>
+                </div>
+              </div>
+              <div class="card-block-info">
+                <p class="font-xs color-text-paragraph-2">{{job.job.description}}</p>
+                <div class="employers-info align-items-center justify-content-center mt-15">
+                  <div class="row">
+                    <div class="col-6"><span class="d-flex align-items-center">
+                        <i class="fi-rr-marker mr-5 ml-0"></i><span
+                          class="font-sm color-text-mutted">Status</span></span></div>
+                    <div class="col-6">
+
+                      <span class="d-flex justify-content-end align-items-center">
+                        {% if job.is_scheduled %}
+                        <i class="fi-rr-clock mr-5"></i><span class="font-sm color-green">Scheduled</span>
+                        {% else %}
+                        <i class="fi-rr-clock mr-5"></i><span class="font-sm color-yellow">Applied</span>
+                        {% endif %}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </section>
+
+</main>
+
+{%endblock%}

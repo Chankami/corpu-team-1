@@ -1,0 +1,431 @@
+{% extends 'app/applicant_dashboard_base.html' %}
+
+
+
+{% block title%}
+Profile
+{% endblock %}
+
+
+{% block content%}
+
+<div class="modal fade" id="ModalApplyJobForm" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content apply-job-form">
+      <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="modal-body pl-30 pr-30 pt-50">
+        <div class="text-center">
+          <p class="font-sm text-brand-2">Application </p>
+          <h4 class="mt-10 mb-5 text-brand-1 text-capitalize">Empower Minds and Grow Futures</br> Join as a Tutor Today!
+          </h4>
+          <p class="font-sm text-muted mb-30">Please fill in your information and send it to the employer. </p>
+        </div>
+        <form class="login-register text-start mt-20 pb-30" action="{% url 'job_list'%}" method="post"
+          enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label class="form-label" for="input-1">First Name *</label>
+              <input class="form-control" id="input-1" type="text" required="" name="fname"
+                value="{{request.user.first_name}}">
+            </div>
+            <div class="form-group col-md-6">
+              <label class="form-label" for="input-1">Last Name *</label>
+              <input class="form-control" id="input-1" type="text" required="" name="lname"
+                value="{{request.user.last_name}}">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label class="form-label" for="input-2">Email *</label>
+              <input class="form-control" id="input-2" type="email" required="" name="emailaddress"
+                value="{{request.user.email}}">
+            </div>
+            <div class="form-group col-md-6">
+              <label class="form-label" for="number">Contact Number *</label>
+              <input class="form-control" id="number" type="text" required="" name="phone"
+                value="{{request.user.phone_no}}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="file">Upload Resume *</label>
+            <input class="form-control" id="file" name="resume" type="file" required>
+          </div>
+          <div class="box-filters-job">Availability</div>
+          <div class="form-group">
+            <label class="form-label" for="input-2">Monday *</label>
+            <select class="form-control form-input select2-multi" multiple required name="monday" style="width: 50%"
+              id="monday">
+              <option value="1">08.00am-10.00am</option>
+              <option value="2">10.00am-12.00pm</option>
+              <option value="3">01.00pm-03.00pm</option>
+              <option value="4">03.00pm-05.00pm</option>
+              <option value="5">05.00pm-07.00pm</option>
+            </select>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="monday_unavailable" id="monday_unavailable" />
+            <label class="form-check-label" for="exampleCheck1">Unavailable All Day</label>
+          </div>
+
+
+          <div class="form-group">
+            <label class="form-label" for="input-2">Tuesday*</label>
+            <select class="form-input select2-multi" multiple required name="tuesday" style="width: 50%" id="tuesday">
+
+              <option value="1">08.00am-10.00am</option>
+              <option value="2">10.00am-12.00pm</option>
+              <option value="3">01.00pm-03.00pm</option>
+              <option value="4">03.00pm-05.00pm</option>
+              <option value="5">05.00pm-07.00pm</option>
+            </select>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="tuesday_unavailable" id="tuesday_unavailable" />
+            <label class="form-check-label" for="exampleCheck1">Unavailable All Day</label>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label " for="input-2">Wednesday *</label>
+            <select class="form-input select2-multi" multiple required name="wednesday" style="width: 50%"
+              id="wednesday">
+
+              <option value="1">08.00am-10.00am</option>
+              <option value="2">10.00am-12.00pm</option>
+              <option value="3">01.00pm-03.00pm</option>
+              <option value="4">03.00pm-05.00pm</option>
+              <option value="5">05.00pm-07.00pm</option>
+            </select>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="wednesday_unavailable" id="wednesday_unavailable" />
+            <label class="form-check-label" for="exampleCheck1">Unavailable All Day</label>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-2">Thursday*</label>
+            <select class="form-input select2-multi" multiple required name="thursday" style="width: 50%" id="thursday">
+
+              <option value="1">08.00am-10.00am</option>
+              <option value="2">10.00am-12.00pm</option>
+              <option value="3">01.00pm-03.00pm</option>
+              <option value="4">03.00pm-05.00pm</option>
+              <option value="5">05.00pm-07.00pm</option>
+            </select>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="thursday_unavailable" id="thursday_unavailable" />
+            <label class="form-check-label" for="exampleCheck1">Unavailable All Day</label>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="input-2">Friday *</label>
+            <select class="form-input select2-multi" multiple required name="friday" style="width: 50%" id="friday">
+
+              <option value="1">08.00am-10.00am</option>
+              <option value="2">10.00am-12.00pm</option>
+              <option value="3">01.00pm-03.00pm</option>
+              <option value="4">03.00pm-05.00pm</option>
+              <option value="5">05.00pm-07.00pm</option>
+            </select>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="friday_unavailable" id="friday_unavailable" />
+            <label class="form-check-label" for="exampleCheck1">Unavailable All Day</label>
+          </div>
+          <div class="form-group col-md-12">
+            <label class="form-label" for="input-2">Saturday *</label>
+            <select class="form-input select2-multi" multiple required name="saturday" style="width: 50%" id="saturday">
+
+              <option value="1">08.00am-10.00am</option>
+              <option value="2">10.00am-12.00pm</option>
+              <option value="3">01.00pm-03.00pm</option>
+              <option value="4">03.00pm-05.00pm</option>
+              <option value="5">05.00pm-07.00pm</option>
+            </select>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="saturday_unavailable" id="saturday_unavailable" />
+            <label class="form-check-label" for="exampleCheck1">Unavailable All Day</label>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="input-2">Sunday *</label>
+            <select class="form-control form-input select2-multi" multiple required name="sunday" style="width: 50%"
+              id="sunday">
+
+              <option value="1">08.00am-10.00am</option>
+              <option value="2">10.00am-12.00pm</option>
+              <option value="3">01.00pm-03.00pm</option>
+              <option value="4">03.00pm-05.00pm</option>
+              <option value="5">05.00pm-07.00pm</option>
+            </select>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="sunday_unavailable" id="sunday_unavailable" />
+            <label class="form-check-label" for="sunday_unavailable">Unavailable All Day</label>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="input-1">Other Details</label>
+            <input class="form-control " id="input-1" type="text" name="other">
+          </div>
+          <input type="hidden" class="form-control" id="jobId" name="job_id">
+          <div class="form-group">
+            <button class="btn btn-default hover-up w-100" type="submit" name="login">Apply</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<main class="main">
+  <section class="section-box-2">
+    <div class="container">
+      <div class="banner-hero banner-single banner-single-bg">
+        <div class="block-banner text-center">
+          <h3 class="">Empower Minds and Grow Futures</h3>
+          <div class="font-sm color-text-paragraph-2 mt-10 ">Start on your tutoring journey with us today!</div>
+          <div class="form-find text-start mt-40">
+            <form>
+              <input class="form-input input-keysearch mr-10" type="text" placeholder="Unit name... ">
+              <button class="btn btn-default btn-find font-sm">Search</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section-box mt-30">
+    <div class="container">
+      <div class="row flex-row-reverse">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-12 float-right">
+          <div class="content-page">
+            {% include 'app/messages.html'%}
+            <div class="box-filters-job">
+              <div class="row">
+                <div class="col-xl-6 col-lg-5"><span class="text-small text-showing">Showing <strong>{{ page_obj.number }} - {{ page_obj.paginator.per_page }} </strong>of
+                    <strong>{{filter_count.all|default:"0"}} </strong>jobs</span></div>
+                <div class="col-xl-6 col-lg-7 text-lg-end mt-sm-15">
+                  <div class="display-flex2">
+                    <div class="box-border mr-10"><span class="text-sortby">Show:</span>
+                      <div class="dropdown dropdown-sort">
+                        <button class="btn dropdown-toggle" id="dropdownSort" type="button" data-bs-toggle="dropdown"
+                          aria-expanded="false" data-bs-display="static"><span class="icon-down"> 10</span></button>
+                        <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="dropdownSort">
+                          <li><a class="dropdown-item" active href="#">10</a></li>
+                          <li><a class="dropdown-item active" href="#">20</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="box-border"><span class="text-sortby">Sort by:</span>
+                      <div class="dropdown dropdown-sort">
+                        <button class="btn dropdown-toggle " id="dropdownSort2" type="button" data-bs-toggle="dropdown"
+                          aria-expanded="false" data-bs-display="static">
+                          <span class="icon-down">Newest</span></button>
+                        <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="dropdownSort2">
+                          <li><a class="dropdown-item  active" href="#">Newest </a></li>
+                          <li><a class="dropdown-item" href="#">Oldest </a></li>
+                          <li><a class="dropdown-item" href="#">Rating </a></li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="box-view-type"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row display-list">
+
+
+
+              {% load static %}
+              {% for unit in page_obj %}
+              <div class="col-xl-12 col-12">
+                <div class="card-grid-2 hover-up"><span class="flash"></span>
+                  <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                      <div class="card-grid-2-image-left">
+                        <div class="image-box"><img src="{% static 'app/imgs/icons/icon-job.svg'%}"></div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 text-start text-md-end pr-60 col-md-6 col-sm-12">
+
+                    </div>
+                  </div>
+                  <div class="card-block-info">
+                    <h4><a href="job-details.html">{{unit.name}}</a></h4>
+                    <div class="mt-5"><span class="card-briefcase">{{unit.code}}</span></div>
+                    <div class="mt-5"><span class="card-briefcase">Start Date :
+                        <strong>{{unit.start_date}}</strong></span>
+                      <span class="card-briefcase">End Date : <strong>{{unit.end_date}}</strong></span>
+                    </div>
+                    <p class="font-sm color-text-paragraph mt-10"> {{unit.description}}</p>
+                    <div class="card-2-bottom mt-20">
+                      <div class="row">
+                        <div class="col-lg-7 col-7"></div>
+                        <div class="col-lg-5 col-5 text-end">
+
+                          {% if unit.id not in applied_jobs %}
+                          <div class="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalApplyJobForm"
+                            data-jobid="{{unit.id}}">Apply
+                            now</div>
+                          {%else%}
+                          <div class="color-yellow"><strong>Applied</strong> 
+                          </div>
+                          {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+
+
+            </div>
+          </div>
+          <div class="paginations">
+            <ul class="pager">
+              {% if page_obj.has_previous %}
+              <li><a class="pager-prev" href="?page={{ page_obj.previous_page_number }}"></a></li>
+              {% endif %}
+             
+              <li class="current pager-number">
+                  Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+              </li>
+              
+              {% if page_obj.has_next %}
+              <li><a class="pager-next" href="?page={{ page_obj.next_page_number }}"></a></li>
+              {% endif %}
+          </ul>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+          <div class="sidebar-shadow none-shadow mb-30">
+            <div class="sidebar-filters">
+              <div class="filter-block head-border mb-30">
+                <h5>Advance Filter <a class="link-reset" href="#">Reset</a>
+                </h5>
+              </div>
+              <div class="filter-block mb-30">
+
+              </div>
+              <div class="filter-block mb-20">
+                <h5 class="medium-heading mb-15">Faculty</h5>
+                <form action="{% url 'apply_filter'%}" method="post">
+                  {%csrf_token%}
+                  <div class="form-group">
+                    <ul class="list-checkbox">
+                      <!--li>
+                        <label class="cb-container">
+                          <input type="checkbox" name="All"><span class="text-small">All</span><span
+                          class="checkmark" ></span>
+                      </label><span class="number-item">{{filter_count.all|default:"0"}}</span>
+                      </li-->
+                      <li>
+                        <label class="cb-container">
+                          <input type="checkbox" name="Arts"><span class="text-small">Arts</span><span
+                            class="checkmark" ></span>
+                        </label><span class="number-item">{{filter_count.arts|default:"0"}}</span>
+                      </li>
+                      <li>
+                        <label class="cb-container">
+                          <input type="checkbox" name="Business and Economics"><span class="text-small">Business and Economics</span><span class="checkmark"
+                            ></span>
+                        </label><span class="number-item">{{filter_count.business|default:"0"}}</span>
+                      </li>
+                      <li>
+                        <label class="cb-container">
+                          <input type="checkbox" name="Engineering and Information Technology"><span class="text-small">Engineering and Information Technology</span><span
+                            class="checkmark" ></span>
+                        </label><span class="number-item">{{filter_count.engineering|default:"0"}}</span>
+                      </li>
+                      <li>
+                        <label class="cb-container">
+                          <input type="checkbox" name="Fine Arts and Music"><span class="text-small">Fine Arts and Music</span><span class="checkmark"></span>
+                        </label><span class="number-item">{{filter_count.finearts|default:"0"}}</span>
+                      </li>
+                      <li>
+                        <label class="cb-container">
+                          <input type="checkbox" name="Medicine"><span class="text-small">Medicine</span><span
+                            class="checkmark"></span>
+                        </label><span class="number-item">{{filter_count.medicine|default:"0"}}</span>
+                        
+                      </li>
+                      <li>
+                        <label class="cb-container">
+                          <input type="checkbox" name="Dentistry and Health Sciences"><span class="text-small">Dentistry and Health Sciences</span><span
+                            class="checkmark"></span>
+                        </label><span class="number-item">{{filter_count.dentistry|default:"0"}}</span>
+                      </li>
+                      <li>
+                        <label class="cb-container">
+                          <input type="checkbox" name="Science"><span class="text-small">Science</span><span
+                            class="checkmark"></span>
+                        </label><span class="number-item">{{filter_count.science|default:"0"}}</span>
+                      </li>
+                      <li>
+                        <label class="cb-container">
+                          <input type="checkbox" name="Law School"><span class="text-small">Law School</span><span
+                            class="checkmark"></span>
+                        </label><span class="number-item">{{filter_count.law|default:"0"}}</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <button type="submit" class="btn btn-default btn-brand ">Apply Filter</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+{%endblock%}
+
+
+{% block javascript %}
+<script>
+  $('#ModalApplyJobForm').on('show.bs.modal', function (event) {
+    let jobId = $(event.relatedTarget).data('jobid')
+    $(this).find('.modal-body #jobId').val(jobId)
+  })
+
+  $('.select2-multi').select2({
+    width: 'resolve'
+  });
+
+  window.addEventListener('DOMContentLoaded', (event) => {
+
+    var checkboxes = document.querySelectorAll("input[type=checkbox]");
+
+    for (let i = 0; i < checkboxes.length; i++) {
+      checkboxes[i].addEventListener('change', handleChange)
+    }
+
+
+  })
+
+  const handleChange = (event) => {
+    console.log(event.target.id)
+
+    let weekday = event.target.id.split('_')[0]
+
+    if (event.target.checked) {
+      document.getElementById(weekday).setAttribute("disabled", "disabled");
+    }
+    else {
+      document.getElementById(weekday).removeAttribute("disabled");
+    }
+  }
+
+
+
+</script>
+
+{% endblock %}

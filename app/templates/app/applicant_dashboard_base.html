@@ -1,0 +1,154 @@
+<!--Applicant Base for all Page-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="author" content="">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'app/imgs/CorpU.ico'%}">
+    <link href="{% static 'app/css/plugins/select2.min.css'%}" rel="stylesheet">
+    <link href="{% static 'app/css/style-applicant.css'%}" rel="stylesheet">
+    <script src="https://unpkg.com/imask"></script>
+  <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+  <div id="preloader-active">
+    <div class="preloader d-flex align-items-center justify-content-center">
+      <div class="preloader-inner position-relative">
+        <div class="text-center"><img src="{% static 'app/imgs/icons/loading.gif'%}" alt="CorpU"></div>
+      </div>
+    </div>
+  </div>
+  <header class="header sticky-bar">
+    <div class="container">
+      <div class="main-header">
+        <div class="header-left">
+          <div class="header-logo"><a class="d-flex" href="{% url 'app_index' %}"><img alt="corpU" src="{% static 'app/imgs/CorpU.svg'%}"></a></div>
+       </div>
+        <div class="header-nav">
+          <nav class="nav-main-menu">
+            <ul class="main-menu">
+              <li class="has-children"><a class="active" href="{% url 'app_index' %}">Home</a>
+              </li>
+              <li class="has-children"><a href="{% url 'user_profile'%}">Profile</a></li>
+            </ul>
+          </nav>
+          </div>
+          <div class="burger-icon burger-icon-white"><span class="burger-icon-top"></span><span class="burger-icon-mid"></span><span class="burger-icon-bottom"></span></div>
+        <div class="header-right">
+          <div class="member-login"><img alt="" src="{% static 'app/imgs/icons/profiles.svg'%}">
+                <div class="info-member"> 
+                  <div class="dropdown">
+                    <a class="color-brand-1 icon-down" id="dropdownProfile" 
+                    type="button" data-bs-toggle="dropdown" aria-expanded="false" 
+                    data-bs-display="static" style="text-decoration-line: none;">
+                   <strong>{{ request.user.first_name}} &nbsp {{ request.user.last_name}}</strong> </a>
+                    <ul class="dropdown-menu dropdown-menu-light dropdown-menu-end" aria-labelledby="dropdownProfile">
+                      <li><a class="dropdown-item" href="{% url 'applied_jobs' %}">Applied Units</a></li>
+                      <li><a class="dropdown-item" href="{% url 'logout_user' %}">Log Out</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>                     
+       </div>
+      </div>
+    </div>
+  </header>
+  <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
+    <div class="mobile-header-wrapper-inner">
+      <div class="mobile-header-content-area">
+        <div class="perfect-scroll">
+          <div class="mobile-search mobile-header-border mb-30">
+            <form action="#">
+              <input type="text" placeholder="Search…"><i class="fi-rr-search"></i>
+            </form>
+          </div>
+          <div class="mobile-menu-wrap mobile-header-border">
+            <!-- mobile menu start-->
+            <nav>
+              <ul class="mobile-menu font-heading">
+                <li class="has-children"><a class="active" href="{% url 'app_index' %}">Home</a>
+                </li>
+                <li class="has-children"><a href="{% url 'user_profile'%}">Profile</a>
+                 </li>
+              </ul>
+            </nav>
+          </div>
+          <div class="mobile-account">
+            <h6 class="mb-10">Your Account</h6>
+            <ul class="mobile-menu font-heading">
+              <li><a href="{% url 'applied_jobs' %}">Applied Units</a></li>
+              <li><a href="{% url 'logout_user' %}">Log Out</a></li>
+            </ul>
+          </div>
+          <div class="site-copyright">Copyright 2022 &copy; CorpU.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
+    <div class="mobile-header-wrapper-inner">
+      <div class="mobile-header-content-area">
+        <div class="perfect-scroll">
+          <div class="mobile-search mobile-header-border mb-30">
+            <form action="#">
+              <input type="text" placeholder="Search…"><i class="fi-rr-search"></i>
+            </form>
+          </div>
+          <div class="mobile-menu-wrap mobile-header-border">
+            <!-- mobile menu start-->
+            <nav>
+              <ul class="mobile-menu font-heading">
+                <li class="has-children"><a class="active" href="{% url 'app_index' %}">Home</a>
+                
+                </li>
+                <li class="has-children"><a href="{% url 'user_profile'%}">Profile</a></li>
+                 
+
+              </ul>
+            </nav>
+          </div>
+          <div class="mobile-account">
+            <h6 class="mb-10">Your Account</h6>
+            <ul class="mobile-menu font-heading">
+              <li><a href="{% url 'applied_jobs' %}">Applied Units</a></li>
+
+              <li><a href="{% url 'logout_user'%}">Log Out</a></li>
+            </ul>
+          </div>
+          <div class="site-copyright">Copyright 2022 &copy; corpU. <br>Designed by AliThemes.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% block content%}{%endblock%}
+  <footer class="footer mt-50">
+    <div class="container">
+     
+      <div class="footer-bottom mt-50">
+        <div class="row">
+          <div class="col-md-6"><span class="font-xs color-text-paragraph">Copyright &copy; 2023. CropU all right reserved</span></div>
+          
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+<script src="{% static 'app/js/vendor/jquery-3.6.0.min.js'%}"></script>
+<script src="{% static 'app/js/vendor/jquery-migrate-3.3.0.min.js'%}"></script>
+<script src="{% static 'app/js/vendor/bootstrap.bundle.min.js'%}"></script>
+<script src="{% static 'app/js/plugins/wow.js'%}"></script>
+<script src="{% static 'app/js/main.js'%}"></script>
+<script src="{% static 'app/js/plugins/perfect-scrollbar.min.js'%}"></script>
+<script src="{% static 'app/js/plugins/scrollup.js'%}"></script>
+<script src="{% static 'app/js/plugins/select2.min.js'%}"></script>
+
+{% block javascript%}
+
+{% endblock %}
+
+</html>
