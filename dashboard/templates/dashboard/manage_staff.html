@@ -1,5 +1,5 @@
+<!--Manage Staff Page-->
 {% extends 'dashboard/base.html' %}
-
 
 {% block content%}
 
@@ -116,34 +116,11 @@
                                                         </table>
                                                     </div>
                                                 </div>
-                                                
                                                 <div class="paginations">
-                                                    <!-- <span class="step-links">
-                                                        {% if page_obj.has_previous %}
-                                                            <a href="?page=1">&laquo; first</a>
-                                                            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-                                                        {% endif %}
-                                                
-                                                        <span class="current">
-                                                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                                                        </span>
-                                                
-                                                        {% if page_obj.has_next %}
-                                                            <a href="?page={{ page_obj.next_page_number }}">next</a>
-                                                            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-                                                        {% endif %}
-                                                    </span> -->
                                                     <ul class="pager">
                                                         {% if page_obj.has_previous %}
                                                         <li><a class="pager-prev" href="?page={{ page_obj.previous_page_number }}"></a></li>
-                                                        {% endif %}
-                                                        <!-- <li><a class="pager-number" href="#">1</a></li>
-                                                        <li><a class="pager-number" href="#">2</a></li>
-                                                        <li><a class="pager-number" href="#">3</a></li>
-                                                        <li><a class="pager-number" href="#">4</a></li>
-                                                        <li><a class="pager-number" href="#">5</a></li>
-                                                        <li><a class="pager-number active" href="#">6</a></li>
-                                                        <li><a class="pager-number" href="#">7</a></li> -->
+                                                        {% endif %}                            
                                                         <li class="current pager-number">
                                                             Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
                                                         </li>

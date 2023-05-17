@@ -127,7 +127,20 @@ def edit_staff(request, staff_id):
             messages.error(request, 'Staff could be updated')
             return HttpResponseRedirect(reverse('manage_staff')) 
     return render(request, 'dashboard/edit_staff.html', {"profile": staff_profile})
- 
+
+ #manage Staff details
+def manage_staff(request):
+     if not request.user.is_authenticated or not request.user.is_superuser:
+        messages.error(request, 'Only admins are allowed here')
+        return HttpResponseRedirect(reverse('index'))
+     
+     profiles = StaffProfile.objects.all().order_by("id")
+     paginator = Paginator(profiles, 10)
+     page_number = request.GET.get("page")
+     page_obj = paginator.get_page(page_number)
+
+     print(page_obj)
+     return render(request, 'dashboard/manage_staff.html', {"page_obj": page_obj})
 
 #Add Jobs by Staff     
 def add_job(request):
