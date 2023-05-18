@@ -1,0 +1,158 @@
+<!--Unit list Page-->
+{% extends 'dashboard/base.html' %}
+{% block content%}
+
+<div class="box-content">
+    <div class="box-heading">
+        <div class="box-title">
+            <h3 class="mb-35">View Units</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="section-box">
+                <div class="container">
+                    <div class="panel-white mb-30">
+                        <div class="box-padding">
+                            <h6 class="color-text-paragraph-2 ">Units</h6>
+                            <div class="panel-head">
+                                {% include 'dashboard/messages.html'%}
+                            </div>
+                            <div class="row">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-md-12">
+
+                                                    <div class="table-responsive">
+                                                        <table class="table no-wrap user-table mb-0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th scope="col"
+                                                                        class="border-0 text-uppercase font-medium pl-4">
+                                                                        #</th>
+                                                                    <th scope="col"
+                                                                        class="border-0 text-uppercase font-medium">
+                                                                        Code</th>
+                                                                    <th scope="col" style="width: 15%"
+                                                                        class="border-0 text-uppercase font-medium">Last
+                                                                        Name</th>
+                                                                    <th scope="col" style="width: 25%"
+                                                                        class="border-0 text-uppercase font-medium">
+                                                                        Description</th>
+                                                                    <th scope="col"
+                                                                        class="border-0 text-uppercase font-medium">
+                                                                        Start Date</th>
+                                                                    <th scope="col"
+                                                                        class="border-0 text-uppercase font-medium">End Date
+                                                                    </th>
+                                                                    <th scope="col"
+                                                                        class="border-0 text-uppercase font-medium">
+                                                                        Comments</th>
+                                                                    <th scope="col"
+                                                                        class="border-0 text-uppercase font-medium">
+                                                                        Status</th>
+                                                                        <th scope="col" style="width: 10%"
+                                                                        class="border-0 text-uppercase font-medium">
+                                                                        Manage</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                                {% for job in page_obj%}
+                                                                <tr>
+                                                                    <td class="pl-4">{{forloop.counter0|add:page_obj.start_index}}</td>
+                                                                    <td>
+                                                                        <span class="text-muted">{{job.code}}</span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span class="text-muted">{{job.name}}</span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span
+                                                                            class="text-muted">{{job.description}}</span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span class="text-muted">{{job.start_date}}</span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span class="text-muted">{{job.end_date}}</span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span class="text-muted">{{job.comments}}</span>
+                                                                    </td>
+                                                                    {% if job.status == '1' %}
+                                                                    <td>
+                                                                        <span
+                                                                            class="label-status label-active">Active</span>
+                                                                    </td>
+
+                                                                    {% else%}
+                                                                    <td>
+                                                                        <span
+                                                                            class="label-status label-inactive">Inactive</span>
+                                                                    </td>
+                                                                    {% endif %}
+
+                                                                    <td>
+                                                                        <a type="button"
+                                                                            class="btn btn-default btn-edit ml-2" href="{% url 'edit_job' job_id=job.id%}"></i>
+                                                                        </a>
+
+                                                                        
+                                                                        <a type="button"
+                                                                            class="btn btn-default btn-remove ml-2" href="{% url 'delete_unit' job_id=job.id%}"></i>
+                                                                        </a>
+                                                                        
+
+                                                                    </td>
+                                                                </tr>
+                                                                {% endfor %}
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="paginations">
+                                                    <ul class="pager">
+                                                        {% if page_obj.has_previous %}
+                                                        <li><a class="pager-prev" href="?page={{ page_obj.previous_page_number }}"></a></li>
+                                                        {% endif %}
+                                                        <li class="current pager-number">
+                                                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                                        </li>
+                                                        {% if page_obj.has_next %}
+                                                        <li><a class="pager-next" href="?page={{ page_obj.next_page_number }}"></a></li>
+                                                        {% endif %}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <footer class="footer mt-20">
+            <div class="container">
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 mb-25 text-center text-md-start">
+                            <p class="font-sm color-text-paragraph-2">Copyright © 2023. CorpU all right reserved</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -17,6 +17,7 @@ from django.utils.http import urlsafe_base64_decode
 from django.core.mail import send_mail
 from django.conf import settings
 import random
+import datetime
 from django.db.utils import IntegrityError
 from django.core.paginator import Paginator
 
@@ -101,7 +102,7 @@ def add_staff(request):
         print(number.as_national)
         print(number.as_e164)
 
- #Edit Staff details
+#Edit Staff details
 def edit_staff(request, staff_id):
     staff_profile = StaffProfile.objects.filter(id=staff_id).first()
     if request.method == 'POST':
@@ -128,7 +129,7 @@ def edit_staff(request, staff_id):
             return HttpResponseRedirect(reverse('manage_staff')) 
     return render(request, 'dashboard/edit_staff.html', {"profile": staff_profile})
 
- #manage Staff details
+#Manage Staff details
 def manage_staff(request):
      if not request.user.is_authenticated or not request.user.is_superuser:
         messages.error(request, 'Only admins are allowed here')
@@ -163,3 +164,86 @@ def add_job(request):
         return HttpResponseRedirect(reverse('add_job'))
 
     return render(request, 'dashboard/add_job.html', {"current_date": datetime.datetime.today})
+
+#Edit Job
+def edit_job(request, job_id):
+    job = Job.objects.filter(id=job_id).first()
+
+    if request.method == 'POST':
+        code = request.POST['code']
+        name = request.POST['name']
+        description = request.POST['description']
+        start_date = request.POST['start_date']
+        end_date = request.POST['end_date']
+        comments =request.POST['comments']
+        faculty = request.POST['faculty']
+
+        job.code = code
+        job.name = name
+        job.description = description
+        job.start_date = start_date
+        job.end_date = end_date
+        job.comments = comments
+        job.faculty = faculty
+
+        job.save()
+        messages.success(request, "Unit updated!")
+        return HttpResponseRedirect(reverse('unit_list'))
+    if job:
+        return render(request, 'dashboard/edit_job.html', {"job": job})
+    else:
+        messages.error(request, "No unit found")
+        return HttpResponseRedirect(reverse('unit_list'))
+
+#List of jobs
+def unit_list(request):
+    jobs = Job.objects.filter(user=request.user).order_by("id")
+    paginator = Paginator(jobs, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    print(page_obj)
+    return render(request, 'dashboard/unit_list.html', {"page_obj": page_obj})  
+ 
+#Delete jobs
+def delete_unit(request, job_id):
+    if not request.user.is_authenticated:
+        messages.error(request, 'Invalid Operation')
+        return HttpResponseRedirect(reverse('index'))
+    job = Job.objects.filter(id=job_id).first()
+    print(job)
+    if job:
+        print(job.status)
+        if job.status == '1':
+            job.status = '2'
+            job.save()
+            messages.success(request, "Job inactive")
+            print(job.status)
+            if request.user.is_superuser:
+                return HttpResponseRedirect(reverse('review_units'))
+            else:
+               return HttpResponseRedirect(reverse('unit_list')) 
+    
+    if request.user.is_superuser:
+        return HttpResponseRedirect(reverse('review_units'))
+    else:
+        return HttpResponseRedirect(reverse('unit_list'))  
+
+ #review units  
+def review_units(request):
+    if not request.user.is_authenticated or not request.user.is_superuser:
+        messages.error(request, 'Only admins are allowed here')
+        return HttpResponseRedirect(reverse('index'))
+     
+    jobs = Job.objects.all().order_by("id")
+    paginator = Paginator(jobs, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    print(page_obj)
+    return render(request, 'dashboard/review_units.html', {"page_obj": page_obj, "current_date": datetime.date.today()})
+    
+
+    
+
+
