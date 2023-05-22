@@ -5,8 +5,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from phonenumber_field.phonenumber import PhoneNumber
 import json
-from app.models import User, OTPCode
-from .models import StaffProfile, Job
+from app.models import User, OTPCode, Application
+from .models import StaffProfile, Job, Schedule
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
@@ -353,6 +353,144 @@ def approve_unit(request, job_id):
     messages.success(request, "Unit approved!")
     return HttpResponseRedirect(reverse('review_units'))
 
+#Shortlist applicants
+def approve_application(request, app_id):
     
+    application = Application.objects.filter(id=app_id).first()
+    if application:
+        application.is_shortlisted = True
+        application.save()
+        messages.success(request, "Application approved")
+    else:
+        messages.success(request, "Application not found") 
+    
+    return HttpResponseRedirect(reverse('manage_candidates')) 
+
+#Reject applicants
+def reject_application(request, app_id):
+    application = Application.objects.filter(id=app_id).first()
+    if application:
+        application.is_shortlisted = False
+        application.save()
+        messages.success(request, "Application rejected")
+    else:
+        messages.success(request, "Application not found")
+
+    return HttpResponseRedirect(reverse('manage_candidates'))
+
+# Shorted listed applicant list
+def schedule(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('login_dashboard'))
+    applications = Application.objects.filter(is_shortlisted=True, is_scheduled=None)
+
+    paginator = Paginator(applications, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request, 'dashboard/schedule.html', {"applications": page_obj})
+
+#Scheduling applicant 
+def schedule_application(request, app_id):
+    application = Application.objects.filter(id=app_id).first()
+
+    if request.method == 'POST':
+        availability = request.POST['availability']
+
+        try:
+            schedule_count = Schedule.objects.filter(application=application).count()
+            if schedule_count < 20:
+                schedule = Schedule(application=application, time_slot=availability)
+                schedule.save()
+                application.is_scheduled=True
+                application.save()
+                send_schedule_email(request, application.user, application.job, availability)
+                messages.success(request, "Applicant scheduled")
+                return HttpResponseRedirect(reverse('schedule'))
+            else:
+              messages.error(request, "Applicant already scheduled 20 times")
+              return HttpResponseRedirect(reverse('schedule'))  
+        except Exception as e:
+            print(str(e))
+            messages.error(request, "Error scheduling applicant")
+            return HttpResponseRedirect(reverse('schedule'))
+    availability = []
+
+    slots = get_timeslots(application.monday, "Monday")
+    for slot  in slots:
+        availability.append(slot)
+    slots = get_timeslots(application.tuesday, "Tuesday")
+    for slot  in slots:
+        availability.append(slot)
+    slots = get_timeslots(application.wednesday, "Wednesday")
+    for slot  in slots:
+        availability.append(slot)
+    slots = get_timeslots(application.thursday, "Thursday")
+    for slot  in slots:
+        availability.append(slot)
+    slots = get_timeslots(application.friday, "Friday")
+    for slot  in slots:
+        availability.append(slot)
+    slots = get_timeslots(application.saturday, "Saturday")
+    for slot  in slots:
+        availability.append(slot)
+    return render(request, 'dashboard/schedule_application.html', {'application': application, 'availability': availability})
+
+ #Notification for Scheduled applicant   
+def send_schedule_email(request, user, job, time_slot):
+    subject = "You have been selected  as Sessional Staff at CorpU"
+    message = render_to_string('dashboard/emails/schedule_email.html', {
+        'firstname': user.first_name,
+        'lastname': user.last_name,
+        'unit_code': job.code,
+        'unit_name': job.name,
+        'start_date': job.start_date,
+        'end_date': job.end_date,
+        'scheduled_slot': time_slot
+
+    })
+    send_mail(subject, message, settings.EMAIL_HOST_USER, [user.email], fail_silently=False)
+    
+ #Schedule reject    
+def reject_schedule(request, app_id):
+    app = Application.objects.filter(id=app_id)
+    if app:
+        app.is_scheduled = False
+        app.save()
+        messages.success(request, "Application rejected")
+        return HttpResponseRedirect(reverse('schedule'))
+    else:
+        messages.error(request, "Application not found")
+        return HttpResponseRedirect(reverse('schedule'))
+   
+#Schedule list
+def detail_schedule(request):
+   
+   schedules = Schedule.objects.all()
+   paginator = Paginator(schedules, 10)
+   page_number = request.GET.get("page")
+   page_obj = paginator.get_page(page_number)
+
+   return render(request, 'dashboard/schedule-detail.html', {'page_obj': page_obj})
+
+def get_timeslots(arr, day):
+    TIME_SLOTS = {
+        # "0": "Unavailable All Day",
+        "1": f"{day} - 08.00am-10.00am",
+        "2": f"{day} - 10.00am-12.00pm",
+        "3": f"{day} - 01.00pm-03.00pm",
+        "4": f"{day} - 03.00pm-05.00pm",
+        "5": f"{day} - 05.00pm-07.00pm"
+    }
+    slots = []
+    print(arr)
+    items = arr.replace('[', '').replace(']', '').replace("'", '').split(', ')
+    print(items)
+    print(type(arr))
+    for item in items:
+        print(item)
+        if item != '0':
+            slots.append(TIME_SLOTS[item])
+    return slots
 
 

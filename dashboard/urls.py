@@ -23,5 +23,16 @@ urlpatterns = [
     path('jobs/delete/<str:job_id>', views.delete_unit, name="delete_unit"),
     path('jobs/review', views.review_units, name="review_units"),
     path('jobs/approve/<str:job_id>', views.approve_unit, name="approve_unit"),
+    path('dashboard/activate/<uidb64>/<token>/', views.activate_account, name='activate_dashboard'),
+
+    path('candidates', views.manage_candidates, name="manage_candidates"),
+    path('approve_application/<str:app_id>', views.approve_application, name="approve_application"),
+    path('reject_application/<str:app_id>', views.reject_application, name="reject_application"),
+     
+    path('schedule', views.schedule, name='schedule'),
+    path('schedule/approve/<str:app_id>', views.schedule_application, name="schedule_application"),
+    path('schedule/reject/<str:app_id>', views.reject_schedule, name="reject_schedule"),
+    path('detail_schedule', views.detail_schedule, name='detail_schedule'),
+
     
 ]

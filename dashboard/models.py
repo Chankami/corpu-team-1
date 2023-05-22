@@ -41,8 +41,15 @@ class Job(models.Model):
     end_date = models.DateField()
     comments = models.TextField()
     status = models.CharField(max_length=1, choices=STATUS_CHOICES)
-    faculty = models.CharField(
-        max_length=50, choices=FACULTY_CHOICES, null=True)
+    faculty = models.CharField(max_length=50, choices=FACULTY_CHOICES, null=True)
 
     def __str__(self):
         return f"{self.code} | {self.name}"
+    
+    #Schdule applicants
+    class Schedule(models.Model):
+    application = models.ForeignKey('app.Application', on_delete=models.CASCADE, related_name="schedules")
+    time_slot = models.CharField(max_length=50)
+
+
+    

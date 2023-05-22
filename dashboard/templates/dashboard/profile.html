@@ -1,0 +1,89 @@
+<!--SStaff profile for applicant-->
+{% extends 'dashboard/base.html' %}
+
+{% block content%}
+
+<div class="box-content">
+    <div class="box-heading">
+        <div class="box-title">
+            <h3 class="mb-35">My Profile</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="section-box">
+                <div class="container">
+                    <div class="panel-white mb-30">
+                        <div class="box-padding">
+                            <h6 class="color-text-paragraph-2 ">Profile Details</h6>
+                            <div class="panel-head">
+                                {% include 'dashboard/messages.html'%}
+                            </div>
+                            <div class="panel-white mb-30">
+                                <div class="box-padding">
+                            
+                                  <div class="row"> 
+                                    <div class="col-lg-6 col-md-6">
+                                      <div class="form-group mb-30"> 
+                                        <label class="font-sm color-text-mutted mb-10">First Name *</label>
+                                        <input class="form-control" type="text" readonly>
+                                      </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group mb-30"> 
+                                          <label class="font-sm color-text-mutted mb-10">Last Name *</label>
+                                          <input class="form-control" type="text" readonly>
+                                        </div>
+                                      </div>
+                                    <div class="col-lg-6 col-md-6">
+                                      <div class="form-group mb-30">
+                                        <label class="font-sm color-text-mutted mb-10">Email *</label>
+                                        <input class="form-control" type="text" readonly>
+                                      </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                      <div class="form-group mb-30">
+                                        <label class="font-sm color-text-mutted mb-10">Contact number</label>
+                                        <input class="form-control" type="text" >
+                                      </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                      <div class="form-group mb-30">
+                                        <label class="font-sm color-text-mutted mb-10">Staff Type</label>
+                                        <input class="form-control" type="text" readonly>
+                                      </div>
+                                    </div>
+                                    
+                                    </div>
+                                    <div class="col-lg-12"> 
+                                      <div class="form-group mt-10">
+                                        <button class="btn btn-default btn-brand icon-tick">Save Change</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <footer class="footer mt-20">
+            <div class="container">
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 mb-25 text-center text-md-start">
+                            <p class="font-sm color-text-paragraph-2">Copyright © 2023. CorpU all right reserved</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+</div>
+
+{% endblock %}

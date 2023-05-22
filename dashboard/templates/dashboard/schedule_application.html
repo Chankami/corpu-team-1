@@ -1,0 +1,104 @@
+
+<!--Schedule short listed applicant-->
+{% extends 'dashboard/base.html' %}
+
+{% block content%}
+
+<div class="box-content">
+    <div class="box-heading">
+        <div class="box-title">
+            <h3 class="mb-35">Schedule Applicants</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="section-box">
+                <div class="container">
+                    <div class="panel-white mb-30">
+                        <div class="box-padding">
+                            <h6 class="color-text-paragraph-2 ">Schedule Sessional Staff</h6>
+                            <div class="panel-head">
+                                {% include 'dashboard/messages.html'%}
+                            </div>
+                            <div class="row">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="box-padding">
+                                                        <div class="login-register">
+                                                            <div class="row login-register-cover pb-250">
+                                                                <div class="row">
+                                                                    <form action="{% url 'schedule_application' app_id=application.id %}" method="post">
+                                                                        {%csrf_token%}
+                                                                        <div class="col-lg-6 col-md-6">
+                                                                            <div class="form-group mb-30">
+                                                                                <label class="font-sm color-text-mutted mb-10">Unit</label>
+                                                                                <input  class="form-control" name="Unit" value="{{application.job.name}}" disabled>
+                                                                                    
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-6 col-md-6">
+                                                                            <div class="form-group mb-30">
+                                                                                <label class="font-sm color-text-mutted mb-10">Applicant</label>
+                                                                                <input  class="form-control" name="applicant" value="{{application.user.first_name}} {{application.user.last_name}}" disabled>
+                                                                                    
+                                                                            </div>
+                                                                        </div>
+                                                                    
+                                                                        <div class="col-lg-6 col-md-6">
+                                                                            <div class="form-group mb-30">
+                                                                                <label class="font-sm color-text-mutted mb-10">Applicants Availability *</label>
+                                                                                <select class="form-control" name="availability" required>
+                                                                                    <option value=""></option>
+                                                                                    {% for item in availability %}
+                                                                                    <option value="{{item}}">{{item}}</option> <!--Load the applicants availability with day and time apply}}-->
+                                                                                    {% endfor %}
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-12">
+                                                                            <div class="form-group mt-10">
+                                                                                <button class="btn btn-default btn-brand">Schedule</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                            
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <footer class="footer mt-20">
+            <div class="container">
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 mb-25 text-center text-md-start">
+                            <p class="font-sm color-text-paragraph-2">Copyright © 2023. CorpU all right reserved</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+</div>
+
+{% endblock %}

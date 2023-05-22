@@ -1,0 +1,16 @@
+
+<!--Schedule notifcation for applicant-->
+{% autoescape off %}
+Hello {{firstname}} {{lastname}},
+
+Congratulations on being selected as sessional staff at CorpU! 
+Here are the details for your assigned session:
+    Unit code: {{unit_code}}
+    Unit name: {{unit_name}}
+    This session will be conducted every {{scheduled_slot}}, starting from {{start_date}} to {{end_date}}.
+
+If you have any questions or concerns, please don't hesitate to reach out to the instructor.
+
+Thanks
+CorpU Team
+{% endautoescape %}

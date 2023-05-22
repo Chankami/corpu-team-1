@@ -1,0 +1,64 @@
+
+<!--Staff Otp -->
+{% extends 'app/applicant_base.html' %}
+{% block title%}
+Staff OTP
+{% endblock %}
+{% block content%}
+<main class="main">
+    <section class="section-box">
+        <div class="banner-hero hero-2">
+            <div class="banner-inner">
+                <div class="block-banner">
+                    <div class="font-lg font-regular color-white mt-20" data-wow-delay=".1s">Welcome back!</div>
+                    <h2 class="text-42 color-white">Enter OTP</h2>
+                    <!--<div class="form-find mt-40 wow animate__animated animate__fadeIn" data-wow-delay=".2s"></div>-->
+                    <section class="login-register">
+                        <div class="container">
+                            <div class="row login-register-cover">
+                                <div class="col-lg-8 col-md-6 col-sm-12 mx-auto">
+                                    <div style="margin-top: 5px;">
+                                        {% if messages %}
+                                            {% for message in messages %}
+                                            {% if message.tags == "error" %}
+                                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                {{message}}
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+                                            {% endif %}
+                                
+                                            {% if message.tags == "success" %}
+                                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                {{message}}
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+                                            {% endif %}
+                                
+                                            {% endfor %}
+                                        
+                                        {% endif %}
+                                
+                                    </div>
+                                    <form class="login-register text-start mt-20" action="{% url 'staff_otp' %}"
+                                        method="POST">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <label class="form-label color-white " for="input-1">Enter OTP</label>
+                                            <input class="form-control" id="input-1" type="text" required=""
+                                                name="otp">
+                                        </div>
+                                    
+                                        <div class="form-group">
+                                            <button class="btn btn-brand-1 hover-up w-100" type="submit"
+                                                >Submit</button>
+                                        </div>
+                                        
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+</main>
+
+
+{% endblock %}
